@@ -4,8 +4,8 @@
 import sys
 import os
 import functools
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from Ann import *
 
 ### GLOBAL VARIABLES ###
