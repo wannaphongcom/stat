@@ -56,14 +56,14 @@ class Object:
             self.saveMask = True
         else:
             self.mask = None
-            print 'Error! Object mask file does not exist: ', fname         
+            print('Error! Object mask file does not exist: ', fname)        
     def loadObjectImage(self, fname, brushColor, forceLoad=False):
         if self.region and not forceLoad: return
         if not self.mask: self.loadObjectMask(fname)
         if self.mask: self.region = self.getObjectRegion(brushColor)
         else:
             self.region = None
-            print 'Could not load object image from mask file ', fname        
+            print('Could not load object image from mask file ', fname)        
     # the image region to be shown on the object list scene
     def getObjectRegion(self, brushColor):
         cmask = self.mask.copy(self.x1, self.y1, self.w, self.h)
@@ -77,8 +77,8 @@ class Object:
     def save(self, fname):
         if self.mask and self.saveMask:
             if not self.mask.save(fname):
-                print 'Error saving object mask ', self.id, ' to ', fname                
-            print 'Object mask saved to ', fname
+                print('Error saving object mask ', self.id, ' to ', fname)              
+            print('Object mask saved to ', fname)
             self.saveMask = False
 
 # One image, containing the selected objects
@@ -178,7 +178,7 @@ class XImage:
     
     def loadTxtFile(self, annotationDir):
         if self.numObjects() > 0:
-            print 'loadTxtFile: image.objects not empty -- no load.'
+            print('loadTxtFile: image.objects not empty -- no load.')
             return
         
         filePath = annotationDir + self.fname + ".labels.txt"
@@ -190,7 +190,7 @@ class XImage:
             sline = lines[i].split()
             
             if len(sline) < 6:
-                print 'File', filePath, 'not in correct format. Skip.'
+                print('File', filePath, 'not in correct format. Skip.')
                 ifs.close()
                 return
             
@@ -206,7 +206,7 @@ class XImage:
             self.objects.append(obj)
         
         ifs.close()
-        print 'Loaded:', filePath
+        print('Loaded:', filePath)
         
     # save annotations for 'imagePath' to 'filePath'
     def toTxtFile(self, annotationDir):
@@ -215,7 +215,7 @@ class XImage:
         filePath = annotationDir + self.fname + ".labels.txt"
         ofs = open(filePath, 'w')
         if not ofs:
-            print 'Could not open file', filePath, 'to save image annotation!'
+            print('Could not open file', filePath, 'to save image annotation!')
             return
         ofs.write(self.fname)        
         for obj in self.objects:
@@ -229,7 +229,7 @@ class XImage:
             #ofs.write(obj.text)
         
         ofs.close()
-        print 'Saved to:', filePath
+        print('Saved to:', filePath)
     
     # save annotations, bounding boxes, like the output of a text detector (e.g., snoopertext) --> image.png.box.txt
     def toTxtBoxFile(self, imageDir, annotationDir):
@@ -238,7 +238,7 @@ class XImage:
         filePath = annotationDir + self.fname + ".box.txt"
         ofs = open(filePath, 'w')
         if not ofs:
-            print 'Could not open file', filePath, 'to save bounding annotation!'
+            print('Could not open file', filePath, 'to save bounding annotation!')
             return
         imagePath = imageDir + self.fname
         ofs.write(imagePath)
@@ -254,7 +254,7 @@ class XImage:
             ofs.write(str(obj.h) + ' ' )           
         
         ofs.close()
-        print 'Saved .box.txt to:', filePath
+        print('Saved .box.txt to:', filePath)
     
     def toString(self):
         pass
@@ -324,9 +324,9 @@ class Annotation:
     def setAnnotationDir(self, dir):
         if not os.path.isdir(dir):            
             os.makedirs(dir)
-            print dir, ' did not exist! Created..'
+            print(dir, ' did not exist! Created..')
         self.annotationDir = dir + "/"
-        print 'Annotation directory changed to : ', self.annotationDir
+        print('Annotation directory changed to : ', self.annotationDir)
         #return self.annotationDir
     
     def setLabel(self, label):
@@ -366,14 +366,14 @@ class Annotation:
             self.images[index].deleteObject(id)
         
     def loadDir(self, imageDir, fileExt):
-        print 'Image Directory: ', imageDir
-        print 'File extension: ', fileExt
+        print('Image Directory: ', imageDir)
+        print('File extension: ', fileExt)
         self.imageDir = str(imageDir + '/')
         self.annotationDir = str(imageDir + '/ann/')
         
         self.fex = str(fileExt)
         chain = self.imageDir + str(fileExt)
-        print chain
+        print(chain)
         # get all the files with the given extension (full path)
         imageFiles = glob.glob(chain)
         imageList = []
@@ -387,7 +387,7 @@ class Annotation:
             ximg = XImage(f)
             ximg.loadTxtFile(self.annotationDir)
             self.images.append(ximg)
-        print 'Number of images loaded: ', len(self.images)
+        print('Number of images loaded: ', len(self.images))
         #print 'loadDir:', self.annotationDir
         
     # save the selected object masks of the current image as png images
@@ -400,13 +400,13 @@ class Annotation:
         if self.images[self.index].save or forceSave:
             self.images[self.index].toTxtFile(self.annotationDir)
         else:
-            print 'No change to save for image', self.index
+            print('No change to save for image', self.index)
     
     def saveImageAnnAsBoxTxt(self, forceSave=False):
         if self.images[self.index].save or forceSave:
             self.images[self.index].toTxtBoxFile(self.imageDir, self.annotationDir)
         else:
-            print 'No change to save for image', self.index
+            print('No change to save for image', self.index)
     
     # save all the annotations, to .box.txt files
     def saveALLImageAnnAsBoxTxt(self, forceSave=False):
@@ -423,10 +423,10 @@ class Annotation:
         if self.numImages() == 0 or index >= self.numImages() : return
         if self.image(index).numObjects() == 0: return
         if not os.path.isdir(self.annotationDir):
-            print self.annotationDir, ' does not exist! create it..'
+            print(self.annotationDir, ' does not exist! create it..')
             os.makedirs(self.annotationDir)        
         self.image(index).saveObjectMasks(self.annotationDir)
-        print 'Saved object masks (selections)'
+        print('Saved object masks (selections)')
         
     # load the already saved object masks from the disk
     def loadObjectMasks(self, index, forceLoad=False):
@@ -470,7 +470,7 @@ class Annotation:
 #        print 'Annotation list saved to: ', fname
     
     def loadAnnotation(self, fname):
-        print 'TBI'
+        print('TBI')
 #        ifs = open(fname)
 #        if not ifs:
 #            print 'Could not load ', fname
