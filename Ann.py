@@ -3,8 +3,8 @@ import glob
 import numpy
 import scipy
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 # whole image annotation labels
 LPOS, LNEG, LSKIP = 1, -1, 0
