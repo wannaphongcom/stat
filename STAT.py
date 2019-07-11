@@ -357,7 +357,7 @@ class ObjectListScene(QGraphicsScene):
             self.main.updateSelectedLabel(None, False)
             return
         for item in items:
-            print 'Object ', item.ID, 'selected'
+            print('Object ', item.ID, 'selected')
             self.main.updateSelectedLabel(item, True)
             
     # add and display the existing objects
@@ -544,10 +544,10 @@ class GraphicsView(QGraphicsView):
         self.fitmode = not self.fitmode
         if self.fitmode: 
             self.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
-            print 'Fit the image in view'
+            print('Fit the image in view')
         else:
             self.resetTransform()
-            print 'Actual image size'
+            print('Actual image size')
     
     def fitImageView(self):
         self.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio) 
@@ -814,25 +814,25 @@ class MainWindow(QMainWindow):
             self.ann.saveCurrentObjectMasks(True)
             self.ann.saveImageAnnAsTxt(True)
             self.ann.toggleSave(False)
-        else: print 'Nothing to save!'
+        else: print('Nothing to save!')
     
     def onSaveBBox(self):
         if self.ann is not None:            
             self.ann.saveALLImageAnnAsBoxTxt(True)
             self.ann.toggleSave(False)
-        else: print 'Nothing to save!'
+        else: print('Nothing to save!')
     
     def closeEvent(self, event):
         ret = QMessageBox.question(self, "Exit application?", "Exit?", QMessageBox.Yes | QMessageBox.No)
         if ret == QMessageBox.Yes:
-            print '\nSave current image and exit..'
+            print('\nSave current image and exit..')
             self.onButtonSave()
         elif ret == QMessageBox.No:
             event.ignore()
-            print 'Cancel exit.'
+            print('Cancel exit.')
             return                
         event.accept()
-        print 'Close.\n'
+        print('Close.\n')
         
     ### FUNCTIONS ###
     # TODO: ask overwrite
@@ -909,7 +909,7 @@ class MainWindow(QMainWindow):
             self.sceneList.clear()
             self.showCurrentImage()
             self.startUp = False
-            print '\nImage', index+1
+            print('\nImage', index+1)
             
     # load the current image from disk and display it
     def showCurrentImage(self):
@@ -919,7 +919,7 @@ class MainWindow(QMainWindow):
                 piximage = QPixmap(imageFile)
                 self.showImage(piximage)
             else:
-                print 'Image', imageFile, 'does not exits!'
+                print('Image', imageFile, 'does not exits!')
     
     def showImage(self, piximage):        
         self.sceneList.setImage(piximage)
@@ -944,7 +944,7 @@ class MainWindow(QMainWindow):
         text, ok = QInputDialog.getText(self, 'Selection', 'Enter label')
         if ok:
             #utfText = text.toUtf8()
-            print 'Object', self.sceneList.objID, 'label:', text.toUtf8()
+            print('Object', self.sceneList.objID, 'label:', text.toUtf8())
             self.currentLabelText.setText(text);
         else:
             self.currentLabelText.setText("__none__");
@@ -958,11 +958,11 @@ class MainWindow(QMainWindow):
         utfText = None
         text, ok = QInputDialog.getText(self, 'Update object label', 'Enter new label text:')
         if ok:
-            print 'Object', self.sceneList.objID, 'new label:', text.toUtf8()
+            print('Object', self.sceneList.objID, 'new label:', text.toUtf8())
             self.currentLabelText.setText(text);
             self.ann.images[self.ann.index].setObjectText(objID, text)
         else:
-            print 'Object', objID, 'label not updated.'
+            print('Object', objID, 'label not updated.')
             return
         
     def updateSelectedLabel(self, item, flag=True):
@@ -980,7 +980,7 @@ class MainWindow(QMainWindow):
         text = self.currentLabelText.text()
         for item in items:            
             self.ann.images[self.ann.index].setObjectText(item.ID, text)
-            print 'Object ', item.ID, 'label updated.'
+            print('Object ', item.ID, 'label updated.')
             
     def updateDirectoriesText(self, imageDir, outDir):
         if imageDir is not None:
